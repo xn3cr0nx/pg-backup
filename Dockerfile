@@ -19,7 +19,6 @@ FROM golang:alpine
 WORKDIR /root/
 RUN mkdir /root/.pg-backup
 RUN mkdir /root/backups
-COPY --from=builder /pg-backup/config ./config
 COPY --from=builder /pg-backup/build/pg-backup .
 
 CMD ["./pg-backup", "start"]
