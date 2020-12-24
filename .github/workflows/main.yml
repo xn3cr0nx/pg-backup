@@ -18,7 +18,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker build
-        run: "docker build . -t $DOCKER_USERNAME/pg-backup:latest -f docker/lifetime.Dockerfile"
+        run: "docker build . -t $DOCKER_USERNAME/pg-backup:latest"
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
