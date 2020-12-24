@@ -20,6 +20,8 @@ var exportCmd = &cobra.Command{
 		switch viper.GetString("target") {
 		case "s3":
 			e = exporter.NewS3Exporter()
+		default:
+			e = exporter.NewFileExporter()
 		}
 
 		if err := e.Export(); err != nil {

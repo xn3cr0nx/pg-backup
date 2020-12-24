@@ -40,16 +40,13 @@ func (e *S3Exporter) Export() (err error) {
 		return
 	}
 
-	switch viper.GetString("target") {
-	case "s3":
-		logger.Debug("Backup", "Exporting to S3 target", logger.Params{"bucket": viper.GetString("aws_s3_bucket"), "region": viper.GetString("aws_s3_region")})
-		session, e := s3.NewS3Session(viper.GetString("aws_s3_region"))
-		if e != nil {
-			return e
-		}
-		if err = s3.UploadFile(session, viper.GetString("aws_s3_bucket"), viper.GetString("output"), f); err != nil {
-			return
-		}
+	logger.Debug("Backup", "Exporting to S3 target", logger.Params{"bucket": viper.GetString("aws_s3_bucket"), "region": viper.GetString("aws_s3_region")})
+	session, err := s3.NewS3Session(viper.GetString("aws_s3_region"))
+	if e != nil {
+		return
+	}
+	if err = s3.UploadFile(session, viper.GetString("aws_s3_bucket"), viper.GetString("output"), f); err != nil {
+		return
 	}
 
 	return
