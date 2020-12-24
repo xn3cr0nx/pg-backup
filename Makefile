@@ -9,15 +9,15 @@ MAKE=make
 
 BUILD_PATH=build
 BACKUP=./cmd/backup
-BACKUP_BINARY=backup
+BACKUP_BINARY=pg-backup
 CMD=export
 
 export GO111MODULE=on
 
-default: build_backup backup
+default: build backup
 
 .PHONY: all
-all: test build linux
+all: test build backup
 
 .PHONY: test
 test:
@@ -28,16 +28,16 @@ clean:
 	$(GOCLEAN)
 	rm -f $(BUILD_PATH)
 
-.PHONY: run_backup
-run_backup:
-	$(GORUN) $(BACKUP) export
+.PHONY: run
+run:
+	$(GORUN) $(BACKUP)
 
-.PHONY: build_backup
-build_backup: 
+.PHONY: build
+build: 
 	$(GOBUILD) -o $(BUILD_PATH)/$(BACKUP_BINARY) -v $(BACKUP)
 
-.PHONY: install_backup
-install_backup:
+.PHONY: install
+install:
 	$(GOINSTALL) $(BACKUP)
 
 .PHONY: backup

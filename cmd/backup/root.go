@@ -12,11 +12,11 @@ import (
 )
 
 var (
-	debug                              bool
-	ct                                 string
-	target, host, port, user, pass, db string
-	output, outputPrefix, outputExt    string
-	outputTime                         bool
+	debug                                       bool
+	ct                                          string
+	target, host, port, user, pass, db          string
+	output, outputPrefix, outputPath, outputExt string
+	outputTime                                  bool
 	awsAcessKey,
 	awsSecretKey,
 	awsS3Region,
@@ -70,6 +70,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&target, "target", "", "Sets export target between s3, file - [default: s3]")
 
+	rootCmd.PersistentFlags().StringVar(&outputPath, "output_path", "./backups/", "Adds directory path to output name.")
 	rootCmd.PersistentFlags().StringVar(&outputPrefix, "output_prefix", "", "Adds prefix to output name.")
 	rootCmd.PersistentFlags().BoolVar(&outputTime, "output_time", true, "Sets if output name should include time")
 	rootCmd.PersistentFlags().StringVar(&outputExt, "output_ext", "psql", "Sets output extension - [default: psql]")
@@ -108,6 +109,8 @@ func initConfig() {
 	viper.BindPFlag("output_time", rootCmd.PersistentFlags().Lookup("output_time"))
 	viper.SetDefault("output_prefix", "")
 	viper.BindPFlag("output_prefix", rootCmd.PersistentFlags().Lookup("output_prefix"))
+	viper.SetDefault("output_path", "./backups/")
+	viper.BindPFlag("output_path", rootCmd.PersistentFlags().Lookup("output_path"))
 	viper.SetDefault("output_ext", "psql")
 	viper.BindPFlag("output_ext", rootCmd.PersistentFlags().Lookup("output_ext"))
 

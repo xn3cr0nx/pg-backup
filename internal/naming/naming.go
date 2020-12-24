@@ -10,6 +10,10 @@ import (
 // Output returns the file output name based on set env variables
 func Output() string {
 	name := ""
+	path := viper.GetString("output_path")
+	if path != "" {
+		name += path
+	}
 	prefix := viper.GetString("output_prefix")
 	if prefix != "" {
 		name += prefix
