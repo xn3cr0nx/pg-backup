@@ -27,6 +27,12 @@ var startCmd = &cobra.Command{
 			e = exporter.NewFileExporter()
 		}
 
+		logger.Info("Backup", "Running pg-backup", logger.Params{"target": viper.GetString("target")})
+		if err := e.Export(); err != nil {
+			logger.Error("Backup", err, logger.Params{})
+			os.Exit(1)
+		}
+
 		c := cron.New()
 		defer c.Stop()
 

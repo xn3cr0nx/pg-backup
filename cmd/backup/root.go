@@ -55,10 +55,11 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(exportCmd)
+	rootCmd.AddCommand(startCmd)
 
 	// Adds root flags and persistent flags
 	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Sets logging level to Debug")
-	rootCmd.PersistentFlags().StringVar(&ct, "crontime", "@every 1d", "Sets crontime - [default: @every 1d]")
+	rootCmd.PersistentFlags().StringVar(&ct, "crontime", "@daily", "Sets crontime - [default: @daily]")
 
 	// pg variables
 	rootCmd.PersistentFlags().StringVar(&host, "pg_host", "localhost", "Sets postgres host")
@@ -85,7 +86,7 @@ func initConfig() {
 	viper.SetDefault("debug", false)
 	viper.BindPFlag("debug", rootCmd.PersistentFlags().Lookup("debug"))
 
-	viper.SetDefault("crontime", "@every 1d")
+	viper.SetDefault("crontime", "@daily")
 	viper.BindPFlag("crontime", rootCmd.PersistentFlags().Lookup("crontime"))
 
 	// pg variables

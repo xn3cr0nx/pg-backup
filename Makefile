@@ -10,10 +10,7 @@ MAKE=make
 BUILD_PATH=build
 BACKUP=./cmd/backup
 BACKUP_BINARY=backup
-SCRIPTS_PATH=scripts
-
-LNX_BUILD=$(build)/$(BINARY_NAME)
-WIN_BUILD=$(build)/$(BINARY_NAME).exe
+CMD=export
 
 export GO111MODULE=on
 
@@ -31,9 +28,8 @@ clean:
 	$(GOCLEAN)
 	rm -f $(BUILD_PATH)
 
-# backup
-.PHONY: backup
-backup:
+.PHONY: run_backup
+run_backup:
 	$(GORUN) $(BACKUP) export
 
 .PHONY: build_backup
@@ -44,19 +40,6 @@ build_backup:
 install_backup:
 	$(GOINSTALL) $(BACKUP)
 
-.PHONY: build
-build: build_backup
-
-.PHONY: install
-install: install_backup
-
-# # Cross compilation
-# linux: $(LNX_BUILD)
-# windows: $(WIN_BUILD)
-# # deploy:
-# # 	ansible-playbook -i deploy/inventory.txt deploy/deploy.yml
-
-# $(LNX_BUILD):
-# 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BUILD_PATH)/$(BACKUP_BINARY) -v $(BACKUP)
-# $(WIN_BUILD):
-# 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BUILD_PATH)/$(BACKUP_BINARY).exe -v $(BACKUP)
+.PHONY: backup
+backup:
+	$(BUILD_PATH)/$(BACKUP_BINARY) $(CMD)
